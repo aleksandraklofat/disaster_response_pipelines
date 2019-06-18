@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
+
 def load_data(messages_filepath, categories_filepath):
     '''Input: messages dataset, categories dataset;
        Output: merged dataframe'''
@@ -13,8 +14,9 @@ def load_data(messages_filepath, categories_filepath):
     categories = pd.read_csv(categories_filepath)
     # merge datasets
     df = messages.merge(categories, how='outer', on=['id'])
-    
     return df
+      
+
 
 def clean_data(df):
     ''' Input: merged dataframe
@@ -40,15 +42,12 @@ def clean_data(df):
     
 
 
-
 def save_data(df, database_filename):
-    '''Save df into sqlite database
-    Input: df, database_filename
-    Output: sqlite database file'''
-    engine = create_engine('sqlite:///' + database_filename)
-    df.to_sql('DisasterResponse', engine, index=False, if_exists='replace')
+    '''Saving dataframe into a sqlite database'''
     
-
+    engine = create_engine('sqlite:///' + database_filename)
+    df.to_sql('disaster_messages', engine, index=False)
+    
 
 
 def main():
